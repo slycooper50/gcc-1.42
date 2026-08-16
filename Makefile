@@ -21,8 +21,12 @@
 # Variables that exist for you to override.
 # See below for how to change them for certain systems.
 
-CFLAGS = -g $(XCFLAGS)
-CC = cc
+CFLAGS = -g $(XCFLAGS) -m32 -std=gnu89 -Wa,--32 -fpermissive \
+	 -Wno-error=implicit-function-declaration  \
+	 -Wno-builtin-declaration-mismatch -fno-builtin \
+	 -isystem /usr/lib/gcc/x86_64-pc-linux-gnu/16/plugin/include
+		 
+CC = gcc
 BISON = bison
 BISONFLAGS = -v
 # This should be the version of ar to use with output from GCC.
@@ -38,18 +42,18 @@ RANLIB = ranlib
 
 # Compiler to use for compiling gnulib.
 # OLDCC should not be the GNU C compiler.
-OLDCC = cc
+OLDCC = gcc -m32
 
 # CFLAGS for use with OLDCC, for compiling gnulib.
 # NOTE: -O does not work on some Unix systems!
 # On them, you must take it out.
-CCLIBFLAGS=-O
+CCLIBFLAGS=-O -std=gnu89 -fpermissive -Wno-error=implicit-function-declaration
 
 # This should be the version of ar to use with output from $(OLDCC).
 OLDAR = ar
 
 # CFLAGS for use with OLDCC, for compiling hard-params.
-HARD_PARAMS_FLAGS=
+HARD_PARAMS_FLAGS=$(CFLAGS)
 
 # Directory where sources are, from where we are.
 srcdir = .
@@ -122,7 +126,7 @@ DIR = ../gcc
 # a non-gcc compiler, and if your system doesn't have a working alloca() in any
 # of the standard libraries (as is true for HP/UX or Genix),
 # then un-comment the following line when compiling with the system's cc:
-# ALLOCA = alloca.o
+ALLOCA = alloca.o
 # But don't do that if compiling using GCC.
 
 # If your system has a working alloca in /lib/libPW.a,
@@ -300,7 +304,7 @@ stamp-gnulib2: gnulib2.c gnulib cc1 gcc cpp $(CONFIG_H)
 	for name in $(LIB2FUNCS); \
 	do \
 	  echo $${name}; \
-	  ./gcc -B./ -fstrength-reduce -O $(INCLUDES) $(GNULIB2_CFLAGS) -c -DL$${name} $(srcdir)/gnulib2.c -o $${name}.o; \
+	  ./gcc -v -B./ -fstrength-reduce -O $(INCLUDES) $(GNULIB2_CFLAGS) -c -DL$${name} $(srcdir)/gnulib2.c -o $${name}.o; \
 	  $(AR) rc gnulib $${name}.o; \
 	  rm -f $${name}.o; \
 	done
@@ -438,7 +442,7 @@ recog.o : recog.c $(CONFIG_H) $(RTL_H)  \
 # Note some machines won't allow $(CC) without -S on this source file.
 alloca.o:	alloca.c
 	$(CC) $(CFLAGS) -S `echo $(srcdir)/alloca.c | sed 's,^\./,,'`
-	as alloca.s -o alloca.o
+	as --32 alloca.s -o alloca.o
 
 # Now the source files that are generated from the machine description.
 

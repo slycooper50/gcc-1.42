@@ -127,6 +127,7 @@ position among the other output files.
 #include <signal.h>
 #include <sys/file.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #include "config.h"
 #include "obstack.h"
@@ -266,7 +267,7 @@ struct compiler compilers[] =
 		   %{v:-version} %{gg:-symout %g.sym} %{pg:-p} %{p}\
 		   %{pg:%{fomit-frame-pointer:%e-pg and -fomit-frame-pointer are incompatible}}\
 		   %{S:%W{o*}%{!o*:-o %b.s}}%{!S:-o %{|!pipe:%g.s}} |\n\
-              %{!S:as %{R} %{j} %{J} %{h} %{d2} %a %{gg:-G %g.sym}\
+              %{!S:as -32 %{R} %{j} %{J} %{h} %{d2} %a %{gg:-G %g.sym}\
 		      %{c:%W{o*}%{!o*:-o %w%b.o}}%{!c:-o %d%w%b.o}\
                       %{!pipe:%g.s}\n }}}"},
   {".cc",
@@ -281,7 +282,7 @@ struct compiler compilers[] =
 		   %{v:-version} %{gg:-symout %g.sym} %{pg:-p} %{p}\
 		   %{pg:%{fomit-frame-pointer:%e-pg and -fomit-frame-pointer are incompatible}}\
 		   %{S:%W{o*}%{!o*:-o %b.s}}%{!S:-o %{|!pipe:%g.s}} |\n\
-              %{!S:as %{R} %{j} %{J} %{h} %{d2} %a %{gg:-G %g.sym}\
+              %{!S:as -32 %{R} %{j} %{J} %{h} %{d2} %a %{gg:-G %g.sym}\
 		      %{c:%W{o*}%{!o*:-o %w%b.o}}%{!c:-o %d%w%b.o}\
                       %{!pipe:%g.s}\n }}}"},
   {".i",
@@ -1909,43 +1910,43 @@ save_string (s, len)
 pfatal_with_name (name)
      char *name;
 {
-  extern int errno, sys_nerr;
-  extern char *sys_errlist[];
+  //extern int sys_nerr;
+  //extern char *sys_errlist[];
   char *s;
 
-  if (errno < sys_nerr)
-    s = concat ("%s: ", sys_errlist[errno], "");
-  else
-    s = "cannot open %s";
+  //if (errno < sys_nerr)
+  //  s = concat ("%s: ", sys_errlist[errno], "");
+  //else
+  //  s = "cannot open %s";
   fatal (s, name);
 }
 
 perror_with_name (name)
      char *name;
 {
-  extern int errno, sys_nerr;
-  extern char *sys_errlist[];
+  //extern int sys_nerr;
+  //extern char *sys_errlist[];
   char *s;
 
-  if (errno < sys_nerr)
-    s = concat ("%s: ", sys_errlist[errno], "");
-  else
-    s = "cannot open %s";
+  //if (errno < sys_nerr)
+  //  s = concat ("%s: ", sys_errlist[errno], "");
+  //else
+  //  s = "cannot open %s";
   error (s, name);
 }
 
 perror_exec (name)
      char *name;
 {
-  extern int errno, sys_nerr;
-  extern char *sys_errlist[];
+  //extern int sys_nerr;
+  //extern char *sys_errlist[];
   char *s;
 
-  if (errno < sys_nerr)
-    s = concat ("installation problem, cannot exec %s: ",
-		sys_errlist[errno], "");
-  else
-    s = "installation problem, cannot exec %s";
+  //if (errno < sys_nerr)
+  //  s = concat ("installation problem, cannot exec %s: ",
+  //      	sys_errlist[errno], "");
+  //else
+  //  s = "installation problem, cannot exec %s";
   error (s, name);
 }
 

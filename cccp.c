@@ -4866,8 +4866,8 @@ error_from_errno (name)
 {
   int i;
   FILE_BUF *ip = NULL;
-  extern int errno, sys_nerr;
-  extern char *sys_errlist[];
+  //extern int errno, sys_nerr;
+  //extern char *sys_errlist[];
 
   for (i = indepth; i >= 0; i--)
     if (instack[i].fname != NULL) {
@@ -4878,10 +4878,10 @@ error_from_errno (name)
   if (ip != NULL)
     fprintf (stderr, "%s:%d: ", ip->fname, ip->lineno);
 
-  if (errno < sys_nerr)
-    fprintf (stderr, "%s: %s\n", name, sys_errlist[errno]);
-  else
-    fprintf (stderr, "%s: undocumented I/O error\n", name);
+  //if (errno < sys_nerr)
+  //  fprintf (stderr, "%s: %s\n", name, sys_errlist[errno]);
+  //else
+  //  fprintf (stderr, "%s: undocumented I/O error\n", name);
 
   errors++;
   return 0;
@@ -5529,14 +5529,14 @@ void
 perror_with_name (name)
      char *name;
 {
-  extern int errno, sys_nerr;
-  extern char *sys_errlist[];
+  //extern int errno, sys_nerr;
+  //extern char *sys_errlist[];
 
   fprintf (stderr, "%s: ", progname);
-  if (errno < sys_nerr)
-    fprintf (stderr, "%s: %s\n", name, sys_errlist[errno]);
-  else
-    fprintf (stderr, "%s: undocumented I/O error\n", name);
+  //if (errno < sys_nerr)
+  //  fprintf (stderr, "%s: %s\n", name, sys_errlist[errno]);
+  //else
+  //  fprintf (stderr, "%s: undocumented I/O error\n", name);
   errors++;
 }
 
