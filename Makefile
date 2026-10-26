@@ -620,15 +620,16 @@ realclean: cleanconfig
 
 # Copy the files into directories where they will be run.
 install: all $(USER_H) float.h gvarargs.h gstdarg.h gcc.1
-	-mkdir $(libdir)
-	-mkdir $(bindir)
+	-mkdir -p $(libdir)
+	-mkdir -p $(bindir)
+	-mkdir -p $(mandir)
 	-if [ -f cc1 ] ; then $(INSTALL) cc1 $(libdir)/gcc-cc1 ; else true; fi
 	-if [ -f cc1plus ] ; then $(INSTALL) cc1plus $(libdir)/gcc-cc1plus ; else true; fi
 	$(INSTALL) gnulib $(libdir)/gcc-gnulib
 	-if [ -f /usr/bin/ranlib -o -f /bin/ranlib ] ; then (cd $(libdir); $(RANLIB) gcc-gnulib) ; else true; fi
 	$(INSTALL) cpp $(libdir)/gcc-cpp
 	$(INSTALL) gcc $(bindir)/gcc
-	-mkdir $(libdir)/gcc-include
+	-mkdir -p $(libdir)/gcc-include
 	-chmod ugo+rx $(libdir)/gcc-include
 	for file in $(USER_H); do \
 	     for eachfile in  $(srcdir)/$${file} ; do \
